@@ -1,0 +1,20 @@
+﻿using LiveExamSystemWebApp.Core.Entities;
+using System.Collections.Generic;
+
+namespace LiveExamSystemWebApp.Entities.Concrete;
+
+public class Question : Entity
+{
+    public Question()
+    {
+        Answers = new HashSet<Answer>();
+    }
+    
+    public int CategoryId { get; set; }
+    public string FileCode { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public bool IsAnnoted { get; set; }
+    public virtual Category Category { get; set; }
+    public virtual ICollection<Answer> Answers { get; set; }
+}
