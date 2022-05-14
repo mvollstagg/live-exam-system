@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.Business", "LiveExamSystemWebApp.Business\LiveExamSystemWebApp.Business.csproj", "{B44D4EA7-73FA-4E35-AE07-03EB0C3CF783}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.Core", "LiveExamSystemWebApp.Core\LiveExamSystemWebApp.Core.csproj", "{67C0B841-001F-4937-996A-E0D6508980DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.DataAccess", "LiveExamSystemWebApp.DataAccess\LiveExamSystemWebApp.DataAccess.csproj", "{F4A419FF-DE7A-461C-8983-F7CEBCE90652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.Entities", "LiveExamSystemWebApp.Entities\LiveExamSystemWebApp.Entities.csproj", "{C4B050A8-D9B3-4F7F-A8FC-D473A0B7C293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.UI", "LiveExamSystemWebApp.UI\LiveExamSystemWebApp.UI.csproj", "{13ACCEAA-79A7-411B-87A8-498983BA13B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B44D4EA7-73FA-4E35-AE07-03EB0C3CF783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44D4EA7-73FA-4E35-AE07-03EB0C3CF783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44D4EA7-73FA-4E35-AE07-03EB0C3CF783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44D4EA7-73FA-4E35-AE07-03EB0C3CF783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C0B841-001F-4937-996A-E0D6508980DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C0B841-001F-4937-996A-E0D6508980DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C0B841-001F-4937-996A-E0D6508980DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C0B841-001F-4937-996A-E0D6508980DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4A419FF-DE7A-461C-8983-F7CEBCE90652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4A419FF-DE7A-461C-8983-F7CEBCE90652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4A419FF-DE7A-461C-8983-F7CEBCE90652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4A419FF-DE7A-461C-8983-F7CEBCE90652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B050A8-D9B3-4F7F-A8FC-D473A0B7C293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B050A8-D9B3-4F7F-A8FC-D473A0B7C293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B050A8-D9B3-4F7F-A8FC-D473A0B7C293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B050A8-D9B3-4F7F-A8FC-D473A0B7C293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
