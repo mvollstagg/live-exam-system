@@ -21,13 +21,13 @@ public class QuestionManager : IQuestionService
 
     public async Task<IResult> DeleteAsync(Question question)
     {
-        await _questionDal.UpdateAsync(question);
+        await _questionDal.RemoveAsync(question);
         return new SuccessResult(Messages.DeleteMessage);
     }
 
     public async Task<IDataResult<Question>> GetByQuestionIdAsync(int QuestionId)
     {
-        var result = await _questionDal.GetFirstOrDefaultAsync(x => x.Id == QuestionId);
+        var result = await _questionDal.GetFirstOrDefaultAsync(x => x.Id == QuestionId, x => x.Answers);
         return result != null ? new SuccessDataResult<Question>(result) : new ErrorDataResult<Question>(Messages.RecordMessage);
     }
 

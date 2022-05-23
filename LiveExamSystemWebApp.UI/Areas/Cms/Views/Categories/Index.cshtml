@@ -35,6 +35,7 @@
                 <thead>
                     <tr>
                         <th>Sıralama</th>
+                        <th>Kategori Tipi</th>
                         <th>Kategori</th>
                         <th>Durumu</th>
                         <th>#</th>
@@ -45,6 +46,21 @@
                     {
                     <tr data-id="@item.Id">
                         <td>@item.OrderBy</td>
+                        <td>
+                            @if (item.IsExam && item.IsQuestion)
+                            {
+                                <div class="badge bg-info  text-white rounded-pill">Sınav</div>
+                                <div class="badge bg-info  text-white rounded-pill">Soru</div>
+                            }
+                            else if(item.IsExam && !item.IsQuestion)
+                            {
+                                <div class="badge bg-info  text-white rounded-pill">Sınav</div>
+                            }
+                            else if(!item.IsExam && item.IsQuestion)
+                            {
+                                <div class="badge bg-info  text-white rounded-pill">Soru</div>
+                            }
+                        </td>
                         <td>@item.Title</td>
                         <td>
                             @if (item.IsActived)
