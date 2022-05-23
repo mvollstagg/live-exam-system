@@ -7,6 +7,7 @@ public interface ICategoryService
 {
     Task<IDataResult<Category>> GetByCategoryIdAsync(int CategoryId);
     Task<IDataResult<List<Category>>> GetCategoryListAsync();
+    Task<List<Category>> GetAllCategoriesFor(string predicate); 
     Task<IDataResult<List<Category>>> GetCategoryParentListAsync(int CategoryId);
     Task<IDataResult<Category>> AddAsync(Category category);
     Task<IResult> UpdateAsync(Category category);

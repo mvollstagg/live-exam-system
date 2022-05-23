@@ -7,7 +7,7 @@ public class AppUser : Entity
 {
     public AppUser()
     {
-        Exams = new HashSet<Exam>();
+        AppUserExams = new HashSet<AppUserExam>();
     }
     public string FirstName { get; set; }       
     public string LastName { get; set; }
@@ -18,7 +18,7 @@ public class AppUser : Entity
     public DateTime TokenExpiryDate { get; set; }
     public string Token { get; set; }
     public bool IsActived { get; set; }
-    public virtual ICollection<Exam> Exams { get; set; }
+    public virtual ICollection<AppUserExam> AppUserExams { get; set; }
     [NotMapped]
     public string Password { get; set; } // Needed for getting password from forms.
     [NotMapped]

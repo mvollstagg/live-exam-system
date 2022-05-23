@@ -40,6 +40,12 @@ public class CategoryManager : ICategoryService
         return new SuccessDataResult<List<Category>>(resultList.ToList());
     }
 
+    public async Task<List<Category>> GetAllCategoriesFor(string predicate)
+    {
+        var result = await _categoryDal.GetAllCategoriesFor(predicate);
+        return result;
+    }
+
     public async Task<IDataResult<List<Category>>> GetCategoryParentListAsync(int CategoryId)
     {
         var resultList = await _categoryDal.GetListAsync(x => x.IsActived == true && x.ParentId == CategoryId,

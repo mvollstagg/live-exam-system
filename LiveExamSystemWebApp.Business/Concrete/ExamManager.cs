@@ -34,7 +34,7 @@ public class ExamManager : IExamService
 
     public async Task<IDataResult<List<Exam>>> GetExamListAsync()
     {
-        var resultList = await _examDal.GetListAsync(x => x.IsActived == true);
+        var resultList = await _examDal.GetListAsync(x => x.IsActived == true, null, x => x.Category);
         return new SuccessDataResult<List<Exam>>(resultList.ToList());
     }
 

@@ -1,8 +1,7 @@
-﻿
-@model IEnumerable<Category>
+﻿@model IEnumerable<Exam>
 
 @{
-    ViewData["Title"] = "SubCategory";
+    ViewData["Title"] = "Index";
 }
 @section Styles{
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -15,7 +14,7 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <span class="page-header-icon"><i data-feather="filter"></i></span>
-                        Kategoriler
+                        Sınavlar
                     </h1>
                 </div>
             </div>
@@ -25,20 +24,21 @@
 <div class="container-xl px-4 mt-n10">
     <div class="card card-header-actions mb-4">
         <div class="card-header">
-            Kategori Listesi
+            Sınav Listesi
             <div class="rid">
-                <a asp-action="Index" asp-route-id="@ViewBag.CategoryId" class="btn btn-sm btn-dark">Geri git</a>
-                <button data-controler="Categories" data-action="Order" class="btn btn-sm btn-secondary orderBtn">Sırala</button>
-                <a asp-action="Create" asp-route-categoryId="@ViewBag.CategoryId" class="btn btn-sm btn-primary">Kategori Ekle</a>
+                <a asp-action="Create" class="btn btn-sm btn-primary">Sınav Ekle</a>
             </div>
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table-shorting">
                 <thead>
                     <tr>
-                        <th>Sıralama</th>
-                        <th>Ana Kategori</th>
                         <th>Kategori</th>
+                        <th>Adı</th>
+                        <th>Açıklaması</th>
+                        <th>Süresi</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>                        
                         <th>Durumu</th>
                         <th>#</th>
                     </tr>
@@ -47,9 +47,12 @@
                     @foreach (var item in Model)
                     {
                     <tr data-id="@item.Id">
-                        <td>@item.OrderBy</td>
-                        <td>@item.Parent.Title</td>
+                        <td>@item.Category.Title</td>
                         <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td>@item.Time</td>
+                        <td>@item.StartDate.ToString("MM/dd/yyyy HH:mm")</td>
+                        <td>@item.EndDate.ToString("MM/dd/yyyy HH:mm")</td>
                         <td>
                             @if (item.IsActived)
                             {
@@ -61,6 +64,7 @@
                             }
                         </td>
                         <td>
+                            <a asp-action="SubCategory" asp-route-id="@item.Id" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="layers"></i></a>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete it?')" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></a>
                         </td>
