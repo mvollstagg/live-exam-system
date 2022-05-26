@@ -66,7 +66,6 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
                 
                 questionVM.Question.FileCode = UrlSeoHelper.UrlSeo(questionVM.Question.Title);
                 questionVM.Question.Answers = questionVM.Answers;
-                questionVM.Question.Answers.ElementAt(questionVM.CorrectAnswerIndex).IsCorrect = true;
                 var result = await _questionService.AddAsync(questionVM.Question);
                 if (result.Success)
                 {

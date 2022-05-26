@@ -1,3 +1,9 @@
 ﻿@using LiveExamSystemWebApp.UI
 @using LiveExamSystemWebApp.UI.Models
+@using LiveExamSystemWebApp.Entities.Concrete
+@using LiveExamSystemWebApp.UI.Areas.Cms.Models
+@using LiveExamSystemWebApp.Business.Abstract
+@using System.Security.Claims
+
+@inject ICategoryService categoryService
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

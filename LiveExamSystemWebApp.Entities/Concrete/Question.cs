@@ -12,6 +12,7 @@ public class Question : Entity
 
     public int ExamId { get; set; }    
     public int CategoryId { get; set; }
+    public int CorrectAnswerIndex { get; set; }
     public string FileCode { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }

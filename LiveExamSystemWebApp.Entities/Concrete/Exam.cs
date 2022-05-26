@@ -1,5 +1,6 @@
 ﻿using LiveExamSystemWebApp.Core.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LiveExamSystemWebApp.Entities.Concrete;
 
@@ -23,4 +24,13 @@ public class Exam : Entity
     public string SlugUrl { get; set; }
     public virtual Category? Category { get; set; }
     public virtual ICollection<Question> Questions { get; set; }
+    [NotMapped]
+    public double TimeSpan 
+    {
+        get
+        {
+            TimeSpan timeSpan = EndDate - DateTime.Now;
+            return timeSpan.TotalSeconds;
+        }
+    }
 }
