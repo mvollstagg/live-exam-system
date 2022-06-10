@@ -1,4 +1,5 @@
 ﻿using LiveExamSystemWebApp.Business.Abstract;
+using LiveExamSystemWebApp.Core.Utilities.Security.Hashing;
 using LiveExamSystemWebApp.Entities.Concrete;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -38,6 +39,26 @@ public class AccountController : Controller
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [Route("/account/register/")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(AppUser appUser)
+        {
+            appUser.Role = "User";
+            appUser.IsActived = true;
+            appUser.Token = "";
+            appUser.PasswordHash = HashingHelper.CreatePasswordHashOld(appUser.Password, appUser.SecretKey);
+            var user = await _appUserService.AddAsync(appUser);
+            if (!user.Success)
+            {
+                TempData["Error"] = user.Message;
+                return View(appUser);
+            }
+            TempData["Success"] = user.Message;
+            
+            return RedirectToAction("Index", "Account");
         }
 
         [Route("/account/logout/")]

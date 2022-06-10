@@ -27,9 +27,9 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 }).AddCookie(options =>
 {
-    options.AccessDeniedPath = new PathString("/cms/account/login/");
-    options.LoginPath = new PathString("/cms/account/login/");
-    options.LogoutPath = new PathString("/cms/account/logout/");
+    options.AccessDeniedPath = new PathString("/account/login/");
+    options.LoginPath = new PathString("/account/login/");
+    options.LogoutPath = new PathString("/account/logout/");
     options.Cookie.Name = ".LiveExamSystem.net";
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;

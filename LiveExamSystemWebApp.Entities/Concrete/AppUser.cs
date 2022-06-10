@@ -22,6 +22,8 @@ public class AppUser : Entity
     [NotMapped]
     public string Password { get; set; } // Needed for getting password from forms.
     [NotMapped]
+    public string PasswordAgain { get; set; } // Needed for check password for register.
+    [NotMapped]
     public string FullName{get{return this.FirstName+" "+this.LastName;} private set{}}
     [NotMapped]
     public bool IsRegister { get; set; }
