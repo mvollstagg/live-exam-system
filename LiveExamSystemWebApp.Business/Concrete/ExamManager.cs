@@ -28,7 +28,7 @@ public class ExamManager : IExamService
 
     public async Task<IDataResult<Exam>> GetByExamIdAsync(int ExamId)
     {
-        var result = await _examDal.GetFirstOrDefaultAsync(x => x.Id == ExamId);
+        var result = await _examDal.GetFirstOrDefaultAsync(x => x.Id == ExamId, x => x.Category);
         return result != null ? new SuccessDataResult<Exam>(result) : new ErrorDataResult<Exam>(Messages.RecordMessage);
     }
 

@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" asp-area="Cms" asp-controller="Account" asp-action="Logout">
+                    <a class="dropdown-item"  asp-controller="Account" asp-action="Logout">
                         <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
                         Çıkış Yap
                     </a>
@@ -51,38 +51,16 @@
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
                         <div class="sidenav-menu-heading">Ana sayfa</div>
-                        <a class="nav-link" asp-area="Cms" asp-controller="Home" asp-action="Index">
+                        <a class="nav-link"  asp-controller="Home" asp-action="Index">
                             <div class="nav-link-icon"><i data-feather="activity"></i></div>
                             Ana Sayfa
                         </a>
-                        <div class="sidenav-menu-heading">Cms Sayfaları</div>
-                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sidenav-menu-heading">Sınav İşlemleri</div>
+                        <a class="nav-link"  asp-controller="Exam" asp-action="Index">
                             <div class="nav-link-icon"><i data-feather="grid"></i></div>
-                            İşlemler
-                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            Sınav İşlemleri
                         </a>
-                        <div class="collapse" id="collapsePages" data-bs-parent="#accordionSidenav">
-                            <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-                                <a class="nav-link" asp-area="Cms" asp-controller="Categories" asp-action="Index">Kategori İşlemleri</a>
-                                <a class="nav-link" asp-area="Cms" asp-controller="Sliders" asp-action="Index">Kullanıcı İşlemleri</a>
-                                <a class="nav-link" asp-area="Cms" asp-controller="Exams" asp-action="Index">Sınav İşlemleri</a>
-                            </nav>
-                        </div>
-                        
-                        <div class="sidenav-menu-heading">Listeler</div>
-                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseLists" aria-expanded="false" aria-controls="collapseLists">
-                            <div class="nav-link-icon"><i data-feather="list"></i></div>
-                            Listeler
-                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLists" data-bs-parent="#accordionSidenav">
-                            <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-                                <a class="nav-link" asp-area="Cms" asp-controller="Users" asp-action="Index">Kullanıcılar</a>
-                                <a class="nav-link" asp-area="Cms" asp-controller="Letter" asp-action="Index">Gelen Mesajlar</a>
-                            </nav>
-                        </div>
-                        <div class="sidenav-menu-heading">Ayarlar</div>
-                        @* <a class="nav-link" asp-area="Cms" asp-controller="Letter" asp-action="Index">
+                       @* <a class="nav-link" asp-area="Cms" asp-controller="Letter" asp-action="Index">
                             <div class="nav-link-icon"><i data-feather="mail"></i></div>
                             Gelen Mesajlar
                         </a>
@@ -90,11 +68,9 @@
                             <div class="nav-link-icon"><i data-feather="mail"></i></div>
                             Gelen Başvurular
                         </a> *@
-                        <a class="nav-link" asp-area="Cms" asp-controller="AppSeos" asp-action="Index">
-                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
-                            Sayfa Seo Ayarları
-                        </a>
-                        <a class="nav-link" asp-area="Cms" asp-controller="AppConfigs" asp-action="Index">
+                    
+                        <div class="sidenav-menu-heading">Ayarlar</div>
+                        <a class="nav-link" asp-controller="Account" asp-action="Profile">
                             <div class="nav-link-icon"><i data-feather="settings"></i></div>
                             Genel Ayarlar
                         </a>

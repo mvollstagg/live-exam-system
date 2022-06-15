@@ -13,13 +13,21 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
     {
 
         private readonly IExamService _examService;
+        private readonly IAppUserExamService _appUserExamService;
+        private readonly IAppUserService _appUserService;
         private readonly ISeoService _appSeoService;
         private readonly ICategoryService _categoryService;
-        public ExamsController(IExamService examService, ICategoryService categoryService, ISeoService appSeoService)
+        public ExamsController(IExamService examService, 
+                                ICategoryService categoryService, 
+                                ISeoService appSeoService, 
+                                IAppUserService appUserService, 
+                                IAppUserExamService appUserExamService)
         {
             _examService = examService;
             _appSeoService = appSeoService;
             _categoryService = categoryService;
+            _appUserService = appUserService;
+            _appUserExamService = appUserExamService;
         }
         
         public async Task<IActionResult> Index()
@@ -201,31 +209,63 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
             return NotFound();
         } 
 
-        // [HttpPost]
-        // public async Task<IActionResult> Order(List<Order> orders)
-        // {
-        //     try
-        //     {
-        //         foreach (var item in orders)
-        //         {
-        //             var category = await _examService.GetByExamId(item.Id);
-        //             category.Data.OrderBy = item.Place;
-        //             await _examService.GetOrderByExam(category.Data);
-        //         }
-        //         return Ok(new
-        //         {
-        //             Status = 200,
-        //             Message = Messages.UpdateMessage
-        //         });
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return Ok(new
-        //         {
-        //             Status = 404,
-        //             Message = ex.Message
-        //         });
-        //     }
-        // }
+        public async Task<IActionResult> Assign(int? Id)
+        {
+            if (Id != null)
+            {
+                ViewBag.ExamId = Id;
+                return View(new AppUserExamsVM() {
+                    AppUsers = (await _appUserService.GetAppUserListAsync()).Data,
+                    AppUserExams = (await _appUserExamService.GetAppUserExamListAsync()).Data.Where(x => x.ExamId == Id).ToList()
+                });
+            }
+            return NotFound();
+        }
+        
+        public async Task<IActionResult> AssignExam(int id, string email, bool isassign)
+        {
+            try
+            {
+                var user = await _appUserService.GetByUserEmailAsync(email);
+                var exam = await _examService.GetByExamIdAsync(id);
+                var appUserExamRow = await _appUserExamService.GetByAppUserAndExamIdAsync(user.Data.Id, exam.Data.Id);
+                
+                if(isassign && appUserExamRow.Data == null)
+                {
+                    AppUserExam appUserExam = new AppUserExam()
+                    {
+                        AppUserId = user.Data.Id,
+                        ExamId = exam.Data.Id,
+                        IsStarted = false
+                    };
+
+                    var result = await _appUserExamService.AddAsync(appUserExam);
+                    if(result.Success)
+                    {
+                        TempData["Success"] = "Sınav başarıyla atandı.";
+                    }
+                }
+                else if(!isassign && appUserExamRow.Data != null)
+                {
+                    var result = await _appUserExamService.DeleteAsync(appUserExamRow.Data);
+                    if(result.Success)
+                    {
+                        TempData["Success"] = "Sınav ataması kaldırıldı.";
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Bu sınav zaten kullanıcıya atanmış ya da atanmamış sınavı silmeye çalışıyorsunuz!";
+                }
+
+                return RedirectToAction("Assign", "Exams", new { Id = exam.Data.Id });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Beklenmedik Hata: {ex.Message}";
+            }
+ 
+            return RedirectToAction(nameof(ExamsController.Index));
+        }
     }
 }

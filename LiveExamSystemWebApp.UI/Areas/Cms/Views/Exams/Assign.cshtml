@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Exam>
+﻿@model AppUserExamsVM
 
 @{
     ViewData["Title"] = "Index";
@@ -14,7 +14,7 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <span class="page-header-icon"><i data-feather="filter"></i></span>
-                        Sınavlar
+                        Sınav Ataması
                     </h1>
                 </div>
             </div>
@@ -24,37 +24,24 @@
 <div class="container-xl px-4 mt-n10">
     <div class="card card-header-actions mb-4">
         <div class="card-header">
-            Sınav Listesi
-            <div class="rid">
-                <a asp-action="Create" class="btn btn-sm btn-primary">Sınav Ekle</a>
-            </div>
+            Kullanıcı Listesi
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table-shorting">
+            <table id="datatablesSimple" class="table">
                 <thead>
                     <tr>
-                        <th>Kategori</th>
                         <th>Adı</th>
-                        <th>Açıklaması</th>
-                        <th>Süresi</th>
-                        <th>Başlangıç Tarihi</th>
-                        <th>Bitiş Tarihi</th>                        
                         <th>Durumu</th>
                         <th>#</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.AppUsers)
                     {
                     <tr data-id="@item.Id">
-                        <td>@item.Category.Title</td>
-                        <td>@item.Title</td>
-                        <td>@item.Description</td>
-                        <td>@item.Time</td>
-                        <td>@item.StartDate.ToString("MM/dd/yyyy HH:mm")</td>
-                        <td>@item.EndDate.ToString("MM/dd/yyyy HH:mm")</td>
+                        <td>@item.FullName</td>
                         <td>
-                            @if (item.IsActived && item.TimeSpan > 0)
+                            @if (Model.AppUserExams.Any(x => x.AppUserId == item.Id))
                             {
                                 <div class="badge bg-primary text-white rounded-pill">Aktif</div>
                             }
@@ -64,10 +51,8 @@
                             }
                         </td>
                         <td>
-                            <a asp-controller="Questions" asp-action="Index" asp-route-id="@item.Id" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="layers"></i></a>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="more-vertical"></i></a>
-                            <a asp-action="Assign" asp-route-id="@item.Id" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="user-plus"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete it?')" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></a>
+                            <a asp-action="AssignExam" asp-route-id="@ViewBag.ExamId" asp-route-email="@item.Email" asp-route-isassign="true" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="plus-square"></i></a>
+                            <a asp-action="AssignExam" asp-route-id="@ViewBag.ExamId" asp-route-email="@item.Email" asp-route-isassign="false" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="minus-square"></i></a>
                         </td>
                     </tr>
                     }

@@ -20,6 +20,11 @@ public class AutofacBusinessModule : Module
         builder.RegisterType<EfAppConfigDal>().As<IAppConfigDal>();
         #endregion
 
+        #region AppUserExam
+        builder.RegisterType<AppUserExamManager>().As<IAppUserExamService>();
+        builder.RegisterType<EfAppUserExamDal>().As<IAppUserExamDal>();
+        #endregion
+
         #region AppSeo
         builder.RegisterType<SeoManager>().As<ISeoService>();
         builder.RegisterType<EfSeoDal>().As<ISeoDal>();

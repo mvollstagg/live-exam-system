@@ -55,7 +55,7 @@ partial class AppUserManager : IAppUserService
 
     public async Task<IDataResult<AppUser>> GetByUserEmailAsync(string email)
     {
-        var row = await _appUserDal.GetFirstOrDefaultAsync(x => x.Email == email);
+        var row = await _appUserDal.GetFirstOrDefaultAsync(x => x.Email == email, x => x.AppUserExams);
         if (row != null)
         {
             return new SuccessDataResult<AppUser>(row);

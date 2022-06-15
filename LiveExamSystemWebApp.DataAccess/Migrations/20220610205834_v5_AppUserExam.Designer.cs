@@ -3,6 +3,7 @@ using System;
 using LiveExamSystemWebApp.DataAccess.Concrete.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LiveExamSystemWebApp.DataAccess.Migrations
 {
     [DbContext(typeof(LiveExamSystemContext))]
-    partial class LiveExamSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20220610205834_v5_AppUserExam")]
+    partial class v5_AppUserExam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,12 +184,12 @@ namespace LiveExamSystemWebApp.DataAccess.Migrations
                             Id = 1,
                             Email = "admin@admin.com",
                             FirstName = "Admin",
-                            GuId = "14211e70040f4add8d8a15422816ec88",
+                            GuId = "485ce0f6be26426db799d59a1d2f64a4",
                             IsActived = true,
                             LastName = "Admin",
-                            PasswordHash = "85854f07f3e37651572a900da3fef3e1c0dd8c1e418c80b0704b86b1acfd2cd50115a6e9532bd03208626d1ae30ce68cc7effde7319d17db19bd0d67011e0e42",
+                            PasswordHash = "662fa573b1974fe0e5623763e6210a932bbfe85a1a083953f89d020a2617c116b07f861e800babd73d2c77c0977b0606cb60ee36f7eadc3ea8a1c91ea5e91d14",
                             Role = "Admin",
-                            SecretKey = "b340fdfaaa254d14b1b8b42c982f96ae15.06.2022233710",
+                            SecretKey = "310611b6528344cfb645862373be14dd10.06.2022235833",
                             Token = "",
                             TokenExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -212,16 +214,16 @@ namespace LiveExamSystemWebApp.DataAccess.Migrations
                     b.Property<bool>("IsStarted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("RightAnswer")
+                    b.Property<int>("RightAnswer")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Score")
+                    b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UserStartDate")
+                    b.Property<DateTime>("UserStartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("WrongAnswer")
+                    b.Property<int>("WrongAnswer")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

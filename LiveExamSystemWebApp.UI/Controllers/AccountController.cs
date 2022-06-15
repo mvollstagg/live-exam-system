@@ -1,4 +1,5 @@
-﻿using LiveExamSystemWebApp.Business.Abstract;
+﻿using System.Security.Claims;
+using LiveExamSystemWebApp.Business.Abstract;
 using LiveExamSystemWebApp.Core.Utilities.Security.Hashing;
 using LiveExamSystemWebApp.Entities.Concrete;
 using Microsoft.AspNetCore.Authentication;
@@ -48,7 +49,7 @@ public class AccountController : Controller
         {
             appUser.Role = "User";
             appUser.IsActived = true;
-            appUser.Token = "";
+            appUser.Token = "Token";
             appUser.PasswordHash = HashingHelper.CreatePasswordHashOld(appUser.Password, appUser.SecretKey);
             var user = await _appUserService.AddAsync(appUser);
             if (!user.Success)
@@ -59,6 +60,30 @@ public class AccountController : Controller
             TempData["Success"] = user.Message;
             
             return RedirectToAction("Index", "Account");
+        }
+
+        [Route("/account/profile/")]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _appUserService.GetByUserEmailAsync(HttpContext.User.FindFirst(ClaimTypes.Email).Value);
+            return View(user.Data);
+        }
+
+        [Route("/account/profile/")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(AppUser appUser)
+        {
+            appUser.PasswordHash = HashingHelper.CreatePasswordHashOld(appUser.Password, appUser.SecretKey);
+            var user = await _appUserService.UpdateAsync(appUser);
+            if (!user.Success)
+            {
+                TempData["Error"] = user.Message;
+                return View(appUser);
+            }
+            TempData["Success"] = user.Message;
+            
+            return RedirectToAction("Profile", "Account");
         }
 
         [Route("/account/logout/")]
