@@ -34,20 +34,20 @@ public class ExamController : Controller
         }
         if (user.Success)
         {
-            return View(exams.ToList());
+            return View(exams.Where(x => x.IsActived == true).ToList());
         }
         return NotFound();
     }
 
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Exam(int? Id)
     {
-    
-        return View();
+        var exam = await _examService.GetByExamIdAsync(Id.Value);
+        return View(exam.Data);
     }
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ExamVM examVM)
+    public async Task<IActionResult> Exam(ExamVM examVM)
     {
         try
         {

@@ -1,0 +1,111 @@
+﻿@model Exam
+
+@{
+    ViewData["Title"] = "Edit";
+    int counter = 1;
+}
+
+<style type="text/css">
+    .btn-circle.btn-xl {
+        width: 40px;
+        height: 40px;
+        padding: 13px 18px;
+        margin-bottom: 5px;
+        border-radius: 60px;
+        text-align: center;
+    }
+</style>
+
+<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+    <div class="container-xl px-4">
+        <div class="page-header-content pt-4">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto mt-4">
+                    <h1 class="page-header-title">
+                        <span class="page-header-icon"><i data-feather="edit-3"></i></span>
+                        @Model.Title sınavı
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-xl px-4 mt-n10">
+    <form id="fromloading" asp-action="Edit" asp-antiforgery="true">
+        <div class="row">            
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-header">1. Soru</div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label class="small mb-1"><strong>@Model.Questions.FirstOrDefault().Title</strong></label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="small mb-1">@Model.Questions.FirstOrDefault().Description</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Doğru Cevap</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"  value="0">
+                                <label class="form-check-label">A</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="1">
+                                <label class="form-check-label">B</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio"  value="2">
+                                <label class="form-check-label">C</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="3">
+                                <label class="form-check-label">D</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Sorular</div>
+                    <div class="card-body">
+                        <div class="form-group text-center">
+                            @foreach (var item in Model.Questions)
+                            {
+                                <button type="button" class="btn btn-primary btn-circle btn-xl">@counter</button>
+                                counter++;
+                            }                            
+                        </div>
+
+                        <hr class="mt-3 mb-2">
+                        <div class="bn">
+                            <button type="submit" class="btn  btn-primary">Kaydet</button>
+                            <a asp-action="Index" class="btn  btn-dark">Vazgeç</a>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Validation{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section Scripts{
+    <script>
+    $(document).on("submit", "#fromloading", function () {
+        $(this).find('button[type="submit"]')
+        $(this).find('button[type="submit"]').attr("disabled", "true");
+        $(this).find('button[type="submit"]').html('');
+        $(this).find('button[type="submit"]').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Kaydet...')
+        setTimeout(() => {
+            $(this).find('.spinner-border').remove();
+            $(this).find('button[type="submit"]').append('Kaydet');
+            $(this).find('button[type="submit"]').attr("disabled", "false");
+        }, 2000);
+    });
+    </script>
+
+}
