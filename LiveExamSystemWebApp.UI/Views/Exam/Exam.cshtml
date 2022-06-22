@@ -1,4 +1,4 @@
-﻿@model Exam
+﻿@model UserExamVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,7 +23,7 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <span class="page-header-icon"><i data-feather="edit-3"></i></span>
-                        @Model.Title sınavı
+                        @Model.Exam.Title sınavı
                     </h1>
                 </div>
             </div>
@@ -31,38 +31,49 @@
     </div>
 </header>
 <div class="container-xl px-4 mt-n10">
-    <form id="fromloading" asp-action="Edit" asp-antiforgery="true">
+    <form id="fromloading" asp-action="Exam" asp-antiforgery="true">
         <div class="row">            
             <div class="col-xl-8">
-                <div class="card mb-4">
-                    <div class="card-header">1. Soru</div>
-                    <div class="card-body">
-                        <div class="form-group mb-3">
-                            <label class="small mb-1"><strong>@Model.Questions.FirstOrDefault().Title</strong></label>
+                <div class="accordion" id="questions">
+                    @foreach (var item in Model.Exam.Questions)
+                    {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-@counter">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@counter" aria-expanded="false" aria-controls="collapse-@counter">
+                                @counter. Soru
+                            </button>
+                            </h2>
+                            <div id="collapse-@counter" class="accordion-collapse collapse" aria-labelledby="heading-@counter" data-bs-parent="#questions">
+                            <div class="accordion-body">
+                                <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="form-group mb-3">
+                                                <label class="small mb-1"><strong>@item.Title</strong></label>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="small mb-1">@item.Description</label>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="form-label">Cevap</label>
+                                                @foreach (var answer in item.Answers)
+                                                {
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="hidden" name="UserAnswers[@(counter - 1)].QuestionId" value="@answer.QuestionId">
+                                                        <input class="form-check-input" type="radio" name="UserAnswers[@(counter - 1)].Answer" value="@answer.Description">
+                                                        <label class="form-check-label">@answer.Description</label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label class="small mb-1">@Model.Questions.FirstOrDefault().Description</label>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Doğru Cevap</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio"  value="0">
-                                <label class="form-check-label">A</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1">
-                                <label class="form-check-label">B</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio"  value="2">
-                                <label class="form-check-label">C</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="3">
-                                <label class="form-check-label">D</label>
-                            </div>
-                        </div>
-                    </div>
+                        {
+                            counter++;
+                            if(Model.Exam.Questions.Last() == item) { counter = 1; }
+                        }
+                    }
                 </div>
             </div>
             <div class="col-xl-4">
@@ -70,9 +81,9 @@
                     <div class="card-header">Sorular</div>
                     <div class="card-body">
                         <div class="form-group text-center">
-                            @foreach (var item in Model.Questions)
+                            @foreach (var item in Model.Exam.Questions)
                             {
-                                <button type="button" class="btn btn-primary btn-circle btn-xl">@counter</button>
+                                <button type="button" onclick="toggleQuestion(@counter-1)" class="btn btn-primary btn-circle btn-xl">@counter</button>
                                 counter++;
                             }                            
                         </div>
@@ -82,6 +93,8 @@
                             <button type="submit" class="btn  btn-primary">Kaydet</button>
                             <a asp-action="Index" class="btn  btn-dark">Vazgeç</a>
                         </div>
+
+                        <input type="hidden" asp-for="Exam.Id" />
                     </div>                    
                 </div>
             </div>
@@ -95,17 +108,22 @@
 }
 @section Scripts{
     <script>
-    $(document).on("submit", "#fromloading", function () {
-        $(this).find('button[type="submit"]')
-        $(this).find('button[type="submit"]').attr("disabled", "true");
-        $(this).find('button[type="submit"]').html('');
-        $(this).find('button[type="submit"]').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Kaydet...')
-        setTimeout(() => {
-            $(this).find('.spinner-border').remove();
-            $(this).find('button[type="submit"]').append('Kaydet');
-            $(this).find('button[type="submit"]').attr("disabled", "false");
-        }, 2000);
-    });
+        function toggleQuestion(index) {
+            var myCollapse = document.getElementsByClassName('collapse')[index];
+            $(myCollapse).collapse("toggle");
+        }
+
+        $(document).on("submit", "#fromloading", function () {
+            $(this).find('button[type="submit"]')
+            $(this).find('button[type="submit"]').attr("disabled", "true");
+            $(this).find('button[type="submit"]').html('');
+            $(this).find('button[type="submit"]').append('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Kaydet...')
+            setTimeout(() => {
+                $(this).find('.spinner-border').remove();
+                $(this).find('button[type="submit"]').append('Kaydet');
+                $(this).find('button[type="submit"]').attr("disabled", "false");
+            }, 2000);
+        });
     </script>
 
 }

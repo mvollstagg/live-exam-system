@@ -9,9 +9,11 @@ namespace LiveExamSystemWebApp.Business.Concrete;
 public class ExamManager : IExamService
 {
     private readonly IExamDal _examDal;
-    public ExamManager(IExamDal examDal)
+    private readonly IAnswerDal _answerDal;
+    public ExamManager(IExamDal examDal, IAnswerDal answerDal)
     {
         _examDal = examDal;
+        _answerDal = answerDal;
     }
     public async Task<IDataResult<Exam>> AddAsync(Exam exam)
     {
@@ -29,6 +31,10 @@ public class ExamManager : IExamService
     public async Task<IDataResult<Exam>> GetByExamIdAsync(int ExamId)
     {
         var result = await _examDal.GetFirstOrDefaultAsync(x => x.Id == ExamId, x => x.Category, x => x.Questions);
+        foreach (var item in result.Questions)
+        {
+            item.Answers = await _answerDal.GetListAsync(x => x.QuestionId == item.Id);
+        }
         return result != null ? new SuccessDataResult<Exam>(result) : new ErrorDataResult<Exam>(Messages.RecordMessage);
     }
 

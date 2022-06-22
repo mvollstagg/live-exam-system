@@ -37,6 +37,12 @@ public class AnswerManager : IAnswerService
         return new SuccessDataResult<List<Answer>>(resultList.ToList());
     }
 
+    public async Task<IDataResult<List<Answer>>> GetAnswerListByQuestionIdAsync(int questionId)
+    {
+        var resultList = await _answerDal.GetListAsync(x => x.QuestionId == questionId);
+        return new SuccessDataResult<List<Answer>>(resultList.ToList());
+    }
+
     public async Task<IResult> UpdateAsync(Answer answer)
     {
         await _answerDal.UpdateAsync(answer);
