@@ -74,22 +74,25 @@ public class ExamController : Controller
             var result = await _appUserExamService.UpdateAsync(appUserExam);
             if (result.Success)
             {
-                // var seoResult = await _appSeoService.AddAsync(new AppSeo()
-                // {
-                //     AppSeoCode = result.Data.AppSeoCode,
-                //     IsActived = true,
-                //     PageName = "",
-                // });
-                // if (seoResult.Success)
-                // {
-                //     foreach (var item in examVM.AppSeoLanguages)
-                //     {
-                //         item.AppSeoId = seoResult.Data.Id;
-                //         await _appSeoService.AddLanguageAsync(item);
-                //     }
-                // }
+                TempData["Success"] = result.Message;
+                ExamResultVM examResultVM = new ExamResultVM(){
+                    UserName = user.Data.FullName,
+                    ExamName = exam.Data.Title,
+                    Score = (float)appUserExam.Score
+                };
+                foreach (var item in exam.Data.Questions)
+                {
+                    examResultVM.QuestionResults.Add(new QuestionResult(){
+                        Title = item.Title,
+                        Description = item.Description,
+                        UserAnswer = UserAnswers.FirstOrDefault(x => x.QuestionId == item.Id).Answer,
+                        CorrectAnswer = item.CorrectAnswer,
+                        FileCode = item.FileCode
+                    });
+                }
+                return RedirectToAction(nameof(ExamController.Result), examResultVM);
             }
-            TempData["Success"] = result.Message;
+            
         }
         catch (Exception ex)
         {
@@ -97,5 +100,10 @@ public class ExamController : Controller
         }
 
         return RedirectToAction(nameof(ExamController.Index));
+    }
+
+    public IActionResult Result(ExamResultVM results)
+    {
+        return View(results);
     }
 }
