@@ -21,7 +21,7 @@
     </div>
 </header>
 <div class="container-xl px-4 mt-n10">
-    <form id="fromloading" asp-action="Create" asp-antiforgery="true">
+    <form id="fromloading" asp-action="Create" asp-antiforgery="true" enctype="multipart/form-data">
         <div class="row">
             <div class="col-xl-1"></div>
             <div class="col-xl-10">
@@ -43,7 +43,12 @@
                             <select asp-for="Question.CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))" class="form-control"></select>
                             <span asp-validation-for="Question.CategoryId"></span>
                             <span class="text-danger"></span>
-                        </div>         
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label mb-1" for="switchOne">Fotoğraf</label>
+                            <input asp-for="File" class="form-control" type="file" aria-describedby="addnae" accept=".jpeg, .jpg, .png">
+                            <span class="text-danger" asp-validation-for="File"></span>                            
+                        </div>
                         <div class="border border-dark rounded my-3 p-3">
                             <div class="d-flex justify-content-between">
                                 <span>Cevaplar</span>
@@ -72,19 +77,19 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Doğru Cevap</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" asp-for="Question.CorrectAnswer" value="@Model.Answers[0].Description">
+                                <input class="form-check-input" type="radio" asp-for="CorrectAnswerIndex" value='0'>
                                 <label class="form-check-label">A</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" asp-for="Question.CorrectAnswer" value="@Model.Answers[1].Description">
+                                <input class="form-check-input" type="radio" asp-for="CorrectAnswerIndex" value='1'>
                                 <label class="form-check-label">B</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" asp-for="Question.CorrectAnswer" value="@Model.Answers[2].Description">
+                                <input class="form-check-input" type="radio" asp-for="CorrectAnswerIndex" value='2'>
                                 <label class="form-check-label">C</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" asp-for="Question.CorrectAnswer" value="@Model.Answers[3].Description">
+                                <input class="form-check-input" type="radio" asp-for="CorrectAnswerIndex" value='3'>
                                 <label class="form-check-label">D</label>
                             </div>
                         </div>

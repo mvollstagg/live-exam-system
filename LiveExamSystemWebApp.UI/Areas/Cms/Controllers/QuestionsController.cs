@@ -1,5 +1,6 @@
 ﻿using LiveExamSystemWebApp.Business.Abstract;
 using LiveExamSystemWebApp.Business.Contants;
+using LiveExamSystemWebApp.Core.Utilities.Image;
 using LiveExamSystemWebApp.Entities.Concrete;
 using LiveExamSystemWebApp.UI.Areas.Cms.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,18 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
         private readonly ISeoService _appSeoService;
         private readonly IAnswerService _answerService;
         private readonly ICategoryService _categoryService;
-        public QuestionsController(IQuestionService questionService, IAnswerService answerService, ICategoryService categoryService, ISeoService appSeoService)
+        private readonly IImage _image;
+        public QuestionsController(IQuestionService questionService, 
+                                    IAnswerService answerService, 
+                                    ICategoryService categoryService, 
+                                    ISeoService appSeoService,
+                                    IImage image)
         {
             _questionService = questionService;
             _appSeoService = appSeoService;
             _answerService = answerService;
             _categoryService = categoryService;
+            _image = image;
         }
         
         public async Task<IActionResult> Index(int? Id)
@@ -51,40 +58,25 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
         {
             try
             {
-                // if(questionVM.CoverFile != null)
-                // {
-                //     if (!_image.IsImageValid(questionVM.CoverFile))
-                //     {
-                //         ModelState.AddModelError("", "Fayl .jpg/jpeg formatında və maksimum 3MB həcmində olmalıdır !");
-                //         return View(questionVM);
-                //     }
-                //     else
-                //     {
-                //         questionVM.Question.FileCode = await _image.UploadAsync(questionVM.CoverFile, "files", "question"); 
-                //     }
-                // }
-                
-                questionVM.Question.FileCode = UrlSeoHelper.UrlSeo(questionVM.Question.Title);
+                if(questionVM.File != null)
+                {
+                    if (!_image.IsImageValid(questionVM.File))
+                    {
+                        ModelState.AddModelError("", "Dosya .jpg/jpeg formatında ve maksimum 5MB boyutunda olmalıdır !");
+                        return View(questionVM);
+                    }
+                    else
+                    {
+                        questionVM.Question.FileCode = await _image.UploadAsync(questionVM.File, "files", "question"); 
+                    }
+                }
+                questionVM.Question.CorrectAnswer = questionVM.Answers.ElementAt(questionVM.CorrectAnswerIndex).Description;
                 questionVM.Question.Answers = questionVM.Answers;
                 var result = await _questionService.AddAsync(questionVM.Question);
                 if (result.Success)
                 {
-                    // var seoResult = await _appSeoService.AddAsync(new AppSeo()
-                    // {
-                    //     AppSeoCode = result.Data.AppSeoCode,
-                    //     IsActived = true,
-                    //     PageName = "",
-                    // });
-                    // if (seoResult.Success)
-                    // {
-                    //     foreach (var item in questionVM.AppSeoLanguages)
-                    //     {
-                    //         item.AppSeoId = seoResult.Data.Id;
-                    //         await _appSeoService.AddLanguageAsync(item);
-                    //     }
-                    // }
+                    TempData["Success"] = result.Message;
                 }
-                TempData["Success"] = result.Message;
             }
             catch (Exception ex)
             {
@@ -121,47 +113,19 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
             {
                 try
                 {
-                    // if(questionVM.CoverFile != null)
-                    // {
-                    //     if (!_image.IsImageValid(questionVM.CoverFile))
-                    //     {
-                    //         ModelState.AddModelError("", "Fayl .jpg/jpeg formatında və maksimum 3MB həcmində olmalıdır !");
-                    //         return View(questionVM);
-                    //     }
-                    //     else
-                    //     {
-                    //         _image.Delete("files", "question", questionVM.Question.FileCode);
-                    //         questionVM.Question.FileCode = await _image.UploadAsync(questionVM.CoverFile, "files", "question"); 
-                    //     }
-                    // }
-                    
-                    // if(questionVM.PhotoFiles != null)
-                    // {
-                    //     var row = await _questionService.GetByQuestionId(questionVM.Question.Id);
-                    //     foreach (var item in row.Data.QuestionPhotos)
-                    //     {
-                    //         _image.Delete("files", "question", item.FileCode); 
-                    //         await _questionService.DeletePhotoAsync(item);                                                   
-                    //     }
-                        
-                    //     foreach (var photoFile in questionVM.PhotoFiles)
-                    //     {
-                    //         if (!_image.IsImageValid(photoFile))
-                    //         {
-                    //             ModelState.AddModelError("", "Fayl .jpg/jpeg formatında və maksimum 3MB həcmində olmalıdır !");
-                    //             return View(questionVM);
-                    //         }
-                    //         else
-                    //         {
-                    //             QuestionPhoto newPhoto = new QuestionPhoto
-                    //             {
-                    //                 FileCode = await _image.UploadAsync(photoFile, "files", "question"),
-                    //                 QuestionId = questionVM.Question.Id
-                    //             };
-                    //             questionVM.Question.QuestionPhotos.Add(newPhoto);
-                    //         }
-                    //     }
-                    // }
+                    if(questionVM.File != null)
+                    {
+                        if (!_image.IsImageValid(questionVM.File))
+                        {
+                            ModelState.AddModelError("", "Dosya .jpg/jpeg formatında ve maksimum 5MB boyutunda olmalıdır !");
+                            return View(questionVM);
+                        }
+                        else
+                        {
+                            _image.Delete("files", "question", questionVM.Question.FileCode);
+                            questionVM.Question.FileCode = await _image.UploadAsync(questionVM.File, "files", "question"); 
+                        }
+                    }  
 
                     var questionUpdate = await _questionService.UpdateAsync(questionVM.Question);
                     if (questionUpdate.Success)
@@ -170,18 +134,8 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
                         {
                             await _answerService.UpdateAsync(item);
                         }
-                        // foreach (var item in questionVM.Question.QuestionPhotos)
-                        // {
-                        //     item.QuestionId = questionVM.Question.Id;
-                        //     await _questionService.AddPhotoAsync(item);
-                        // }
-                        // foreach (var item in questionVM.AppSeoLanguages)
-                        // {
-                        //     await _appSeoService.UpdateLanguageAsync(item);
-                        // }
                     }
                     TempData["Success"] = questionUpdate.Message;
-
                 }
                 catch (Exception ex)
                 {

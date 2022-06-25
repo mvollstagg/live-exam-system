@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-12 col-lg-auto text-center text-lg-end">
                     <div class="h3 text-white">Sınav Sonucu</div>
-                    #Sınav Notu: @Model.Score
+                    #Sınav Notu: <strong>@Model.Score.ToString("0.00")</strong>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                                     <div class="fw-bold">@item.Title</div>
                                     <div class="small text-muted d-none d-md-block">@item.Description</div>
                                 </td>
-                                <td class="text-end fw-bold">@item.UserAnswer</td>
+                                <td class='text-end fw-bold @(item.CorrectAnswer == item.UserAnswer ? "text-green" : "text-red")'>@item.UserAnswer</td>
                                 <td class="text-end fw-bold text-green">@item.CorrectAnswer</td>
                                 <td class="text-end fw-bold">#@item.FileCode</td>
                             </tr>

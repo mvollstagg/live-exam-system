@@ -6,6 +6,7 @@ using LiveExamSystemWebApp.UI.Areas.Cms.Models;
 using LiveExamSystemWebApp.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LiveExamSystemWebApp.UI.Controllers;
 
@@ -90,7 +91,8 @@ public class ExamController : Controller
                         FileCode = item.FileCode
                     });
                 }
-                return RedirectToAction(nameof(ExamController.Result), examResultVM);
+                TempData["Results"] = JsonConvert.SerializeObject(examResultVM);
+                return RedirectToAction(nameof(ExamController.Result));
             }
             
         }
@@ -102,8 +104,9 @@ public class ExamController : Controller
         return RedirectToAction(nameof(ExamController.Index));
     }
 
-    public IActionResult Result(ExamResultVM results)
+    public IActionResult Result()
     {
-        return View(results);
+        var examResult = JsonConvert.DeserializeObject<ExamResultVM>(TempData["Results"].ToString());
+        return View(examResult);
     }
 }

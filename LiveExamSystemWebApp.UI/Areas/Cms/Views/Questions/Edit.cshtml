@@ -18,7 +18,7 @@
     </div>
 </header>
 <div class="container-xl px-4 mt-n10">
-    <form id="fromloading" asp-action="Edit" asp-antiforgery="true">
+    <form id="fromloading" asp-action="Edit" asp-antiforgery="true" enctype="multipart/form-data">
         <div class="row">
             <div class="col-xl-1"></div>
             <div class="col-xl-10">
@@ -40,7 +40,21 @@
                             <select asp-for="Question.CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))" class="form-control"></select>
                             <span asp-validation-for="Question.CategoryId"></span>
                             <span class="text-danger"></span>
-                        </div>         
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="file" class="form-label">Fotoğraf</label>
+                            @if (Model.Question.FileCode != null)
+                            {
+                                if (Model.Question.FileCode != null)
+                                {
+                                    <div class="my-2">
+                                        <img class="img-account-profile rounded-1 border border-dark" src="~/files/question/@Model.Question.FileCode">
+                                    </div>
+                                }
+                            }
+                            <input asp-for="File" class="form-control" type="file" accept=".jpeg, .jpg, .png">
+                            <span class="text-danger" asp-validation-for="File"></span>  
+                        </div>
                         <div class="border border-dark rounded my-3 p-3">
                             <div class="d-flex justify-content-between">
                                 <span>Cevaplar</span>

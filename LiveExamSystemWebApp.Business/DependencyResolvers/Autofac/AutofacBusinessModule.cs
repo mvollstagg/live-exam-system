@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using LiveExamSystemWebApp.Business.Abstract;
 using LiveExamSystemWebApp.Business.Concrete;
+using LiveExamSystemWebApp.Core.Utilities.Image;
 using LiveExamSystemWebApp.DataAccess.Abstract;
 using LiveExamSystemWebApp.DataAccess.Concrete.EntityFramework;
 
@@ -58,6 +59,10 @@ public class AutofacBusinessModule : Module
         #region Question
         builder.RegisterType<QuestionManager>().As<IQuestionService>();
         builder.RegisterType<EfQuestionDal>().As<IQuestionDal>();
+        #endregion
+
+        #region Image
+        builder.RegisterType<Image>().As<IImage>();
         #endregion
     }
 }
