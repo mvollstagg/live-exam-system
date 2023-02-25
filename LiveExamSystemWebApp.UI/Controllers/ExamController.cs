@@ -32,7 +32,8 @@ public class ExamController : Controller
         foreach (var item in user.Data.AppUserExams)
         {
             var exam = await _examService.GetByExamIdAsync(item.ExamId);
-            exams.Add(exam.Data);
+            if(!item.IsEnd)
+                exams.Add(exam.Data);
         }
         if (user.Success)
         {
@@ -43,7 +44,12 @@ public class ExamController : Controller
 
     public async Task<IActionResult> Exam(int? Id)
     {
+        var user = await _appUserService.GetByUserEmailAsync(HttpContext.User.FindFirst(ClaimTypes.Email).Value);
         var exam = await _examService.GetByExamIdAsync(Id.Value);
+        var appUserExam = user.Data.AppUserExams.FirstOrDefault(x => x.ExamId == exam.Data.Id);
+        appUserExam.IsStarted = true;
+        appUserExam.UserStartDate = DateTime.Now;
+        await _appUserExamService.UpdateAsync(appUserExam);
         return View(new UserExamVM() { Exam = exam.Data });
     }
     
@@ -56,8 +62,7 @@ public class ExamController : Controller
             var user = await _appUserService.GetByUserEmailAsync(HttpContext.User.FindFirst(ClaimTypes.Email).Value);
             var exam = await _examService.GetByExamIdAsync(examVM.Exam.Id);            
             var appUserExam = user.Data.AppUserExams.FirstOrDefault(x => x.ExamId == exam.Data.Id);
-            appUserExam.IsStarted = true;
-            appUserExam.UserStartDate = DateTime.Now;
+            appUserExam.IsEnd = true;
             
             int wrongAnswerCount = 0, correctAnswerCount = 0;
             foreach (var item in UserAnswers)

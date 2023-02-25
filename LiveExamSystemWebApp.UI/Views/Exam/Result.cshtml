@@ -10,7 +10,7 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
-                        <span class="page-header-icon"><i data-feather="filter"></i></span>
+                        <span class="page-header-icon"><i data-feather="layout"></i></span>
                         Tebrikler! Sınavı bitirdiniz.
                     </h1>
                 </div>
@@ -55,7 +55,18 @@
                                 </td>
                                 <td class='text-end fw-bold @(item.CorrectAnswer == item.UserAnswer ? "text-green" : "text-red")'>@item.UserAnswer</td>
                                 <td class="text-end fw-bold text-green">@item.CorrectAnswer</td>
-                                <td class="text-end fw-bold">#@item.FileCode</td>
+                                <td class="text-end fw-bold">
+                                    @if(item.FileCode != null)
+                                    {
+                                        <div class="my-2">
+                                            <img class="img-account-profile rounded-1 border border-dark" src="~/files/question/@item.FileCode">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p>#</p>
+                                    }
+                                </td>
                             </tr>
                         }                        
                     </tbody>

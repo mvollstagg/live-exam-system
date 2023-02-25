@@ -35,7 +35,7 @@ public class AccountController : Controller
                 return View(appUser);
             }
             TempData["Success"] = user.Message;
-            if (Url.IsLocalUrl(returnUrl))
+            if (Url.IsLocalUrl(returnUrl) && returnUrl != "/cms")
             {
                 return Redirect(returnUrl);
             }

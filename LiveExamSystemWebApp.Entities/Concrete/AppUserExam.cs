@@ -10,6 +10,7 @@ public class AppUserExam : Entity
     public int? WrongAnswer { get; set; }
     public float? Score { get; set; }
     public bool IsStarted { get; set; }
+    public bool IsEnd { get; set; }
     public DateTime? UserStartDate { get; set; }
     public virtual AppUser? AppUser { get; set; }
     public virtual Exam? Exam { get; set; }

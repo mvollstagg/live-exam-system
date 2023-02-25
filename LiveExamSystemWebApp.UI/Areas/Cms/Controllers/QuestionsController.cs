@@ -58,16 +58,16 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
         {
             try
             {
-                if(questionVM.File != null)
+                if(questionVM.QuestionFile != null)
                 {
-                    if (!_image.IsImageValid(questionVM.File))
+                    if (!_image.IsImageValid(questionVM.QuestionFile))
                     {
                         ModelState.AddModelError("", "Dosya .jpg/jpeg formatında ve maksimum 5MB boyutunda olmalıdır !");
                         return View(questionVM);
                     }
                     else
                     {
-                        questionVM.Question.FileCode = await _image.UploadAsync(questionVM.File, "files", "question"); 
+                        questionVM.Question.FileCode = await _image.UploadAsync(questionVM.QuestionFile, "files", "question"); 
                     }
                 }
                 questionVM.Question.CorrectAnswer = questionVM.Answers.ElementAt(questionVM.CorrectAnswerIndex).Description;
@@ -113,9 +113,9 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
             {
                 try
                 {
-                    if(questionVM.File != null)
+                    if(questionVM.QuestionFile != null)
                     {
-                        if (!_image.IsImageValid(questionVM.File))
+                        if (!_image.IsImageValid(questionVM.QuestionFile))
                         {
                             ModelState.AddModelError("", "Dosya .jpg/jpeg formatında ve maksimum 5MB boyutunda olmalıdır !");
                             return View(questionVM);
@@ -123,7 +123,7 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
                         else
                         {
                             _image.Delete("files", "question", questionVM.Question.FileCode);
-                            questionVM.Question.FileCode = await _image.UploadAsync(questionVM.File, "files", "question"); 
+                            questionVM.Question.FileCode = await _image.UploadAsync(questionVM.QuestionFile, "files", "question"); 
                         }
                     }  
 

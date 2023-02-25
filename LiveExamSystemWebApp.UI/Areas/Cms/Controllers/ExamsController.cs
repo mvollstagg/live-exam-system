@@ -236,7 +236,8 @@ namespace LiveExamSystemWebApp.UI.Areas.Cms.Controllers
                     {
                         AppUserId = user.Data.Id,
                         ExamId = exam.Data.Id,
-                        IsStarted = false
+                        IsStarted = false,
+                        IsEnd = false
                     };
 
                     var result = await _appUserExamService.AddAsync(appUserExam);

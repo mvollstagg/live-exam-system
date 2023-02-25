@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.Entiti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.UI", "LiveExamSystemWebApp.UI\LiveExamSystemWebApp.UI.csproj", "{13ACCEAA-79A7-411B-87A8-498983BA13B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveExamSystemWebApp.UnitTests", "LiveExamSystemWebApp.UnitTests\LiveExamSystemWebApp.UnitTests.csproj", "{B4A91328-EB2F-4EBB-84A2-8D8B993440A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13ACCEAA-79A7-411B-87A8-498983BA13B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A91328-EB2F-4EBB-84A2-8D8B993440A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A91328-EB2F-4EBB-84A2-8D8B993440A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A91328-EB2F-4EBB-84A2-8D8B993440A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A91328-EB2F-4EBB-84A2-8D8B993440A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
